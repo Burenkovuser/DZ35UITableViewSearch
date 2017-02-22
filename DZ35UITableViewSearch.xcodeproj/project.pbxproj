@@ -61,13 +61,13 @@
 		FB2EFC611E5D86DA0087E557 /* DZ35UITableViewSearch */ = {
 			isa = PBXGroup;
 			children = (
+				FB2EFC791E5D89330087E557 /* Student.h */,
+				FB2EFC7A1E5D89330087E557 /* Student.m */,
 				FB2EFC651E5D86DA0087E557 /* AppDelegate.h */,
 				FB2EFC661E5D86DA0087E557 /* AppDelegate.m */,
 				FB2EFC681E5D86DA0087E557 /* ViewController.h */,
 				FB2EFC691E5D86DA0087E557 /* ViewController.m */,
 				FB2EFC6B1E5D86DA0087E557 /* Main.storyboard */,
-				FB2EFC791E5D89330087E557 /* Student.h */,
-				FB2EFC7A1E5D89330087E557 /* Student.m */,
 				FB2EFC6E1E5D86DB0087E557 /* Assets.xcassets */,
 				FB2EFC701E5D86DB0087E557 /* LaunchScreen.storyboard */,
 				FB2EFC731E5D86DB0087E557 /* Info.plist */,
