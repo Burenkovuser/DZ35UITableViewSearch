@@ -10,11 +10,11 @@
 
 @implementation Student
 
-static NSString* firstName [] = {@"Ivan", @"Olga", @"Igor", @"Max", @"Sveta", @"Mila", @"Anna", @"Vika", @"Petr", @"Alex", @"Vasilii", @"Roman", @"Masha", @"Donald", @"Den", @"Fedor", @"Alla", @"Elena", @"Nicolay", @"Semen"};
+static NSString* firstName [] = {@"Ivan", @"Olga", @"Igor", @"Max", @"Sveta", @"Mila", @"Anna", @"Vika", @"Petr", @"Alex", @"Vasilii", @"Roman", @"Masha", @"Donald", @"Den", @"Fedor", @"Alla", @"Elena", @"Nicolay", @"Semen", @"Bud", @"Pum", @"Traysy", @"Sha", @"Ramon", @"Tran", @"Monte"};
 
-static NSString* lastName [] = {@"Ivanov", @"Black", @"Petrov", @"White", @"Price",@"Green", @"Pinck", @"Apple", @"Yellow", @"Red", @"Grey", @"Silver", @"Gold", @"Orange", @"Tree", @"Free", @"Wood", @"Forest", @"Ligth", @"Sun"};
+static NSString* lastName [] = {@"Ivanov", @"Black", @"Petrov", @"White", @"Price",@"Green", @"Pinck", @"Apple", @"Yellow", @"Red", @"Grey", @"Silver", @"Gold", @"Orange", @"Tree", @"Free", @"Wood", @"Forest", @"Ligth", @"Sun", @"Start", @"Bodden", @"Boss", @"Lady", @"Lenz", @"Heal", @"Roobot"};
 
-static int nameCount = 20;
+static int nameCount = 27;
 
 +(Student*) randomSudent {
     NSDate* date = [NSDate date];
@@ -32,7 +32,7 @@ static int nameCount = 20;
                                    forDate:date];
     [dateComponents setMonth:arc4random() % months.length];
     
-    [dateComponents setYear: [dateComponents year] - (arc4random() % 14 + 7)];
+    [dateComponents setYear: [dateComponents year] - (arc4random() % 18 + 8)];
     
     Student* student = [[Student alloc] init];
     student.name = firstName[arc4random() % nameCount];
@@ -40,7 +40,9 @@ static int nameCount = 20;
     student.birtday = [calendar dateFromComponents:dateComponents];
     
     return student;
-
+}
+-(NSString*) fullName {
+    return [NSString stringWithFormat:@"%@ %@", self.name, self.surname];
 }
 
 @end

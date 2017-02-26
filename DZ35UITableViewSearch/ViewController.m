@@ -26,7 +26,7 @@
     NSMutableArray* array = [NSMutableArray array];
     
     
-    for (int i = 0; i < arc4random()%100; i++) {
+    for (int i = 0; i < arc4random()%75; i++) {
         Student* student = [Student randomSudent];
         [array addObject:student];
     }
@@ -41,7 +41,7 @@
     
     self.studentArray = array;
     
-    self.sectionArray = [self generateSectionFromArray:self.studentArray];
+    self.sectionArray = [self generateSectionFromArray:self.studentArray withFilter:self.searchBar.text];
     
 }
 
@@ -60,12 +60,17 @@
     return stringResult;
 }
 
--(NSArray*) generateSectionFromArray:(NSArray*) array {
+-(NSArray*) generateSectionFromArray:(NSArray*) array withFilter:(NSString*) filterstring {
     NSMutableArray* sectionArray = [NSMutableArray array];
     
     NSString* correntMonth = nil;
     
     for (Student* student in array) {
+        
+        if ([filterstring length] > 0 && [student.fullName rangeOfString:filterstring].location == NSNotFound) {
+            continue;
+        }
+        
         NSString* bitthMonthString = [self getMotheOfBirth:student.birtday];
         
         Section* section = nil;
@@ -103,9 +108,21 @@
 
 #pragma mark - UITableViewDataSource
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.studentArray count];
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {// количество секций в таблице
+    return [self.sectionArray count];//количество элементов в массиве секций
 }
+
+- (nullable NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {//заголовок секции
+    Section* sec = [self.sectionArray objectAtIndex:section];
+    return sec.sectionName;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {//количество элементов в секции
+    Section* sec = [self.sectionArray objectAtIndex:section];
+    return [sec.itemArray count];
+}
+
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString* identifier = @"Cell";
@@ -123,11 +140,36 @@
     
     return cell;
 }
+- (nullable NSArray<NSString *> *)sectionIndexTitlesForTableView:(UITableView *)tableView {// выводим буквы справа
+    NSMutableArray *array = [NSMutableArray array];//массив секций соответсвет буквам секции
+    
+    for (Section* section in self.sectionArray) {//проходимся по массиву секций
+        [array addObject:section.sectionName];//добавляем имя каждой секции
+    }
+    return array;
+}
+
 
 #pragma mark UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark UISearchBarDelegate
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{// called when text starts editing (выездает кансел)
+    [searchBar setShowsCancelButton:YES animated:YES];
+}
+
+-( void) searchBarCancelButtonClicked:(nonnull UISearchBar *)searchBar{//при нажатии на кансел убираем клавиатуру
+    [searchBar resignFirstResponder];
+    [searchBar setShowsCancelButton:NO animated:YES];
+}
+
+-(void) searchBar:(UISearchBar*) searchBar textDidChange:(nonnull NSString *)searchText{//для фильтрации массива
+    self.sectionArray = [self generateSectionFromArray:self.studentArray withFilter:searchText];
+    [self.tableView reloadData];
 }
 
 @end

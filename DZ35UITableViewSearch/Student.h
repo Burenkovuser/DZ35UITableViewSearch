@@ -13,6 +13,7 @@
 @property(strong, nonatomic) NSString* name;
 @property(strong, nonatomic) NSString* surname;
 @property(strong, nonatomic) NSDate* birtday;
+@property(strong, nonatomic) NSString* fullName;
 
 +(Student*) randomSudent;
 
